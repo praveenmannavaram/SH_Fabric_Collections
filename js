@@ -1,1 +1,2 @@
-let phone = "91XXXXXXXXXX";
+adminPage.classList.remove("hidden");
+home.classList.add("hidden");
