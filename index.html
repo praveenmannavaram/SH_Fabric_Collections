@@ -9,11 +9,11 @@
 /* ================= GLOBAL ================= */
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family: Arial, sans-serif;
     background:#f4f4f4;
 }
 button{cursor:pointer}
-h2{margin-bottom:10px}
+.hidden{display:none}
 
 /* ================= HEADER ================= */
 header{
@@ -27,7 +27,6 @@ header{
 .logo{
     font-size:24px;
     font-weight:bold;
-    letter-spacing:1px;
 }
 .cart-icon{
     background:gold;
@@ -46,19 +45,17 @@ header{
     padding-left:10px;
 }
 
-/* ================= HORIZONTAL SCROLL ================= */
+/* ================= SCROLL PRODUCTS ================= */
 .products{
     display:flex;
     gap:15px;
     overflow-x:auto;
-    padding-bottom:10px;
 }
 .products::-webkit-scrollbar{
     height:6px;
 }
 .products::-webkit-scrollbar-thumb{
     background:gold;
-    border-radius:10px;
 }
 
 /* ================= PRODUCT CARD ================= */
@@ -74,24 +71,18 @@ header{
     width:100%;
     height:200px;
     object-fit:cover;
-    border-radius:8px;
 }
-.card h4{margin:8px 0}
-.card p{font-weight:bold}
 .card button{
     width:90%;
     padding:8px;
-    margin-top:6px;
+    margin-top:5px;
     border:none;
     border-radius:5px;
 }
 .add{background:#333;color:white}
 .order{background:gold;font-weight:bold}
 
-/* ================= CART & CHECKOUT ================= */
-#cartPage{
-    display:none;
-}
+/* ================= CART ================= */
 .cart-item{
     background:white;
     padding:10px;
@@ -99,34 +90,25 @@ header{
     border-radius:6px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
 }
 .remove{
     background:red;
     color:white;
     border:none;
-    padding:5px 8px;
-    border-radius:4px;
-}
-.total{
-    font-size:18px;
-    font-weight:bold;
-    margin-top:10px;
+    padding:4px 8px;
 }
 
-/* ================= BUYER FORM ================= */
+/* ================= FORM ================= */
 form{
     background:white;
     padding:15px;
     border-radius:8px;
-    margin-top:15px;
 }
 input,textarea{
     width:100%;
     padding:8px;
     margin:6px 0;
 }
-textarea{resize:none}
 
 /* ================= FOOTER ================= */
 footer{
@@ -134,12 +116,6 @@ footer{
     color:white;
     text-align:center;
     padding:10px;
-    margin-top:20px;
-}
-
-/* ================= RESPONSIVE ================= */
-@media(max-width:600px){
-    .card{min-width:160px}
 }
 </style>
 </head>
@@ -147,27 +123,13 @@ footer{
 <body>
 
 <header>
-    <div class="logo">SH Fabric Fashions</div>
-    <div class="cart-icon" onclick="openCart()">Cart 🛒 (<span id="cartCount">0</span>)</div>
+  <div class="logo">SH Fabric Fashions</div>
+  <div class="cart-icon" onclick="openCart()">Cart 🛒 (<span id="cartCount">0</span>)</div>
 </header>
 
-<!-- ================= HOME PAGE ================= -->
+<!-- ================= HOME ================= -->
 <div id="home">
 
-<!-- KIDS WEAR -->
-<div class="section">
-<h2>Kids Wear</h2>
-<div class="products">
-<div class="card">
-<img src="https://via.placeholder.com/300x400">
-<h4>Kids Party Dress</h4>
-<p>₹800</p>
-<button class="add" onclick="addToCart('Kids Party Dress',800)">Add to Cart</button>
-</div>
-</div>
-</div>
-
-<!-- SAREES -->
 <div class="section">
 <h2>Sarees</h2>
 <div class="products">
@@ -180,7 +142,6 @@ footer{
 </div>
 </div>
 
-<!-- CHUDIDHAR -->
 <div class="section">
 <h2>Chudidhar</h2>
 <div class="products">
@@ -193,50 +154,32 @@ footer{
 </div>
 </div>
 
-<!-- PUNJABI -->
-<div class="section">
-<h2>Punjabi Dresses</h2>
-<div class="products">
-<div class="card">
-<img src="https://via.placeholder.com/300x400">
-<h4>Punjabi Suit</h4>
-<p>₹2000</p>
-<button class="add" onclick="addToCart('Punjabi Suit',2000)">Add to Cart</button>
-</div>
-</div>
 </div>
 
-<!-- HALF SAREES -->
-<div class="section">
-<h2>Half Sarees</h2>
-<div class="products">
-<div class="card">
-<img src="https://via.placeholder.com/300x400">
-<h4>Half Saree Set</h4>
-<p>₹2200</p>
-<button class="add" onclick="addToCart('Half Saree Set',2200)">Add to Cart</button>
-</div>
-</div>
-</div>
-
-</div>
-
-<!-- ================= CART / CHECKOUT PAGE ================= -->
-<div id="cartPage" class="section">
+<!-- ================= CART PAGE ================= -->
+<div id="cartPage" class="section hidden">
 <h2>Your Cart</h2>
 <div id="cartItems"></div>
-<div class="total">Total: ₹<span id="totalPrice">0</span></div>
+<p><b>Total: ₹<span id="total">0</span></b></p>
 
 <form onsubmit="placeOrder(event)">
 <h3>Buyer Details</h3>
-<input type="text" id="name" placeholder="Buyer Name" required>
-<textarea id="address" placeholder="Full Address" required></textarea>
-<input type="text" id="location" placeholder="City / Location" required>
-<button class="order" type="submit">Place Order</button>
+<input id="name" placeholder="Name" required>
+<input id="mobile" placeholder="Mobile Number" required>
+<textarea id="address" placeholder="Address" required></textarea>
+<input id="location" placeholder="Location" required>
+
+<button class="order">Place Order</button>
 </form>
 
-<br>
-<button class="add" onclick="goHome()">Back to Shop</button>
+<button onclick="goHome()">Back</button>
+</div>
+
+<!-- ================= ADMIN PAGE ================= -->
+<div id="adminPage" class="section hidden">
+<h2>Admin Orders</h2>
+<div id="orders"></div>
+<button onclick="goHome()">Close</button>
 </div>
 
 <footer>
@@ -245,78 +188,83 @@ footer{
 
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
-/* Update cart count */
 function updateCartCount(){
-    document.getElementById("cartCount").innerText = cart.length;
+  document.getElementById("cartCount").innerText = cart.length;
 }
 updateCartCount();
 
-/* Add item */
 function addToCart(name,price){
-    cart.push({name,price});
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCartCount();
-    alert(name+" added to cart");
+  cart.push({name,price});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateCartCount();
 }
 
-/* Open cart */
 function openCart(){
-    document.getElementById("home").style.display="none";
-    document.getElementById("cartPage").style.display="block";
-    loadCart();
+  home.classList.add("hidden");
+  cartPage.classList.remove("hidden");
+  loadCart();
 }
 
-/* Load cart items */
 function loadCart(){
-    let div=document.getElementById("cartItems");
-    let total=0;
-    div.innerHTML="";
-    cart.forEach((item,index)=>{
-        total+=item.price;
-        div.innerHTML+=`
-        <div class="cart-item">
-            <span>${item.name} - ₹${item.price}</span>
-            <button class="remove" onclick="removeItem(${index})">Remove</button>
-        </div>`;
-    });
-    document.getElementById("totalPrice").innerText=total;
+  let div=document.getElementById("cartItems");
+  let total=0;
+  div.innerHTML="";
+  cart.forEach((i,index)=>{
+    total+=i.price;
+    div.innerHTML+=`
+    <div class="cart-item">
+      ${i.name} - ₹${i.price}
+      <button class="remove" onclick="removeItem(${index})">X</button>
+    </div>`;
+  });
+  document.getElementById("total").innerText=total;
 }
 
-/* Remove item */
-function removeItem(index){
-    cart.splice(index,1);
-    localStorage.setItem("cart",JSON.stringify(cart));
-    updateCartCount();
-    loadCart();
+function removeItem(i){
+  cart.splice(i,1);
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateCartCount();
+  loadCart();
 }
 
-/* Place order */
 function placeOrder(e){
-    e.preventDefault();
-    let name=document.getElementById("name").value;
-    let address=document.getElementById("address").value;
-    let location=document.getElementById("location").value;
+  e.preventDefault();
 
-    alert(
-        "Order Placed Successfully!\n\n"+
-        "Name: "+name+
-        "\nAddress: "+address+
-        "\nLocation: "+location+
-        "\nItems: "+cart.length
-    );
+  let order={
+    name:name.value,
+    mobile:mobile.value,
+    address:address.value,
+    location:location.value,
+    items:cart
+  };
 
-    cart=[];
-    localStorage.removeItem("cart");
-    updateCartCount();
-    goHome();
+  orders.push(order);
+  localStorage.setItem("orders",JSON.stringify(orders));
+
+  // EMAIL REDIRECT
+  let body=`Order from ${order.name}%0A`+
+           `Mobile: ${order.mobile}%0A`+
+           `Address: ${order.address}%0A`+
+           `Location: ${order.location}%0A`+
+           `Items: ${order.items.map(i=>i.name).join(", ")}`;
+
+  window.location.href=
+  `mailto:yourmail@gmail.com?subject=New Order&body=${body}`;
+
+  cart=[];
+  localStorage.removeItem("cart");
+  updateCartCount();
+  goHome();
 }
 
-/* Back to home */
 function goHome(){
-    document.getElementById("cartPage").style.display="none";
-    document.getElementById("home").style.display="block";
+  home.classList.remove("hidden");
+  cartPage.classList.add("hidden");
+  adminPage.classList.add("hidden");
 }
+
 </script>
 
 </body>
