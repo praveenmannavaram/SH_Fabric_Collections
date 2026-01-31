@@ -6,16 +6,16 @@
 <title>SH Fabric Fashions</title>
 
 <style>
-/* ================= GLOBAL ================= */
+/* =============== GLOBAL =============== */
 body{
     margin:0;
-    font-family: Arial, sans-serif;
+    font-family:Arial, sans-serif;
     background:#f4f4f4;
 }
 button{cursor:pointer}
 .hidden{display:none}
 
-/* ================= HEADER ================= */
+/* =============== HEADER =============== */
 header{
     background:black;
     color:gold;
@@ -36,7 +36,20 @@ header{
     font-weight:bold;
 }
 
-/* ================= SECTIONS ================= */
+/* =============== POPUP MESSAGE =============== */
+.toast{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:black;
+    color:white;
+    padding:12px 18px;
+    border-radius:8px;
+    display:none;
+    z-index:1000;
+}
+
+/* =============== SECTIONS =============== */
 .section{
     padding:20px;
 }
@@ -45,7 +58,7 @@ header{
     padding-left:10px;
 }
 
-/* ================= SCROLL PRODUCTS ================= */
+/* =============== PRODUCT SCROLL =============== */
 .products{
     display:flex;
     gap:15px;
@@ -58,7 +71,7 @@ header{
     background:gold;
 }
 
-/* ================= PRODUCT CARD ================= */
+/* =============== PRODUCT CARD =============== */
 .card{
     min-width:200px;
     background:white;
@@ -69,9 +82,11 @@ header{
 }
 .card img{
     width:100%;
-    height:200px;
+    height:180px;
     object-fit:cover;
 }
+.card h4{margin:8px 0}
+.card p{font-weight:bold}
 .card button{
     width:90%;
     padding:8px;
@@ -82,7 +97,7 @@ header{
 .add{background:#333;color:white}
 .order{background:gold;font-weight:bold}
 
-/* ================= CART ================= */
+/* =============== CART =============== */
 .cart-item{
     background:white;
     padding:10px;
@@ -90,6 +105,7 @@ header{
     border-radius:6px;
     display:flex;
     justify-content:space-between;
+    align-items:center;
 }
 .remove{
     background:red;
@@ -98,7 +114,7 @@ header{
     padding:4px 8px;
 }
 
-/* ================= FORM ================= */
+/* =============== FORM =============== */
 form{
     background:white;
     padding:15px;
@@ -110,7 +126,7 @@ input,textarea{
     margin:6px 0;
 }
 
-/* ================= FOOTER ================= */
+/* =============== FOOTER =============== */
 footer{
     background:black;
     color:white;
@@ -123,18 +139,20 @@ footer{
 <body>
 
 <header>
-  <div class="logo">SH Fabric Fashions</div>
-  <div class="cart-icon" onclick="openCart()">Cart 🛒 (<span id="cartCount">0</span>)</div>
+    <div class="logo">SH Fabric Fashions</div>
+    <div class="cart-icon" onclick="openCart()">Cart 🛒 (<span id="cartCount">0</span>)</div>
 </header>
 
-<!-- ================= HOME ================= -->
+<div class="toast" id="toast"></div>
+
+<!-- =============== HOME =============== -->
 <div id="home">
 
 <div class="section">
 <h2>Sarees</h2>
 <div class="products">
 <div class="card">
-<img src="https://via.placeholder.com/300x400">
+<img src="https://hanfihandicraft.com/cdn/shop/files/393549925_287834970880575_7422002219366973030_n_600x800.jpg">
 <h4>Silk Saree</h4>
 <p>₹2500</p>
 <button class="add" onclick="addToCart('Silk Saree',2500)">Add to Cart</button>
@@ -146,7 +164,7 @@ footer{
 <h2>Chudidhar</h2>
 <div class="products">
 <div class="card">
-<img src="https://via.placeholder.com/300x400">
+<img src="https://assets0.mirraw.com/images/12874576/image_zoom.jpeg">
 <h4>Designer Chudidhar</h4>
 <p>₹1800</p>
 <button class="add" onclick="addToCart('Designer Chudidhar',1800)">Add to Cart</button>
@@ -156,115 +174,108 @@ footer{
 
 </div>
 
-<!-- ================= CART PAGE ================= -->
+<!-- =============== CART PAGE =============== -->
 <div id="cartPage" class="section hidden">
 <h2>Your Cart</h2>
 <div id="cartItems"></div>
-<p><b>Total: ₹<span id="total">0</span></b></p>
+<p><b>Total Amount: ₹<span id="totalAmount">0</span></b></p>
 
 <form onsubmit="placeOrder(event)">
 <h3>Buyer Details</h3>
-<input id="name" placeholder="Name" required>
+<input id="name" placeholder="Buyer Name" required>
 <input id="mobile" placeholder="Mobile Number" required>
-<textarea id="address" placeholder="Address" required></textarea>
-<input id="location" placeholder="Location" required>
-
+<textarea id="address" placeholder="Full Address" required></textarea>
+<input id="location" placeholder="City / Location" required>
 <button class="order">Place Order</button>
 </form>
 
-<button onclick="goHome()">Back</button>
+<br>
+<button onclick="goHome()">Back to Shop</button>
 </div>
 
-<!-- ================= ADMIN PAGE ================= -->
-<div id="adminPage" class="section hidden">
-<h2>Admin Orders</h2>
-<div id="orders"></div>
-<button onclick="goHome()">Close</button>
-</div>
-
-<footer>
-© 2026 SH Fabric Fashions
-</footer>
+<footer>© Since 1992 SH Fabric Fashions</footer>
 
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
 
+/* ---------- TOAST ---------- */
+function showToast(msg){
+    let toast=document.getElementById("toast");
+    toast.innerText=msg;
+    toast.style.display="block";
+    setTimeout(()=>toast.style.display="none",5000);
+}
+
+/* ---------- CART COUNT ---------- */
 function updateCartCount(){
-  document.getElementById("cartCount").innerText = cart.length;
+    cartCount.innerText = cart.length;
 }
 updateCartCount();
 
+/* ---------- ADD TO CART ---------- */
 function addToCart(name,price){
-  cart.push({name,price});
-  localStorage.setItem("cart",JSON.stringify(cart));
-  updateCartCount();
+    cart.push({name,price});
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCartCount();
+    showToast(name+" added to cart");
 }
 
+/* ---------- OPEN CART ---------- */
 function openCart(){
-  home.classList.add("hidden");
-  cartPage.classList.remove("hidden");
-  loadCart();
+    home.classList.add("hidden");
+    cartPage.classList.remove("hidden");
+    loadCart();
 }
 
+/* ---------- LOAD CART ---------- */
 function loadCart(){
-  let div=document.getElementById("cartItems");
-  let total=0;
-  div.innerHTML="";
-  cart.forEach((i,index)=>{
-    total+=i.price;
-    div.innerHTML+=`
-    <div class="cart-item">
-      ${i.name} - ₹${i.price}
-      <button class="remove" onclick="removeItem(${index})">X</button>
-    </div>`;
-  });
-  document.getElementById("total").innerText=total;
+    cartItems.innerHTML="";
+    let total=0;
+    cart.forEach((item,index)=>{
+        total+=item.price;
+        cartItems.innerHTML+=`
+        <div class="cart-item">
+            ${item.name} - ₹${item.price}
+            <button class="remove" onclick="removeItem(${index})">Remove</button>
+        </div>`;
+    });
+    totalAmount.innerText=total;
 }
 
+/* ---------- REMOVE ITEM ---------- */
 function removeItem(i){
-  cart.splice(i,1);
-  localStorage.setItem("cart",JSON.stringify(cart));
-  updateCartCount();
-  loadCart();
+    cart.splice(i,1);
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCartCount();
+    loadCart();
 }
 
+/* ---------- PLACE ORDER ---------- */
 function placeOrder(e){
-  e.preventDefault();
+    e.preventDefault();
+    let items = cart.map(i=>i.name).join(", ");
+    let total = cart.reduce((s,i)=>s+i.price,0);
 
-  let order={
-    name:name.value,
-    mobile:mobile.value,
-    address:address.value,
-    location:location.value,
-    items:cart
-  };
+    window.location.href=
+    `mailto:praveenee062@gmail.com?subject=New Order&body=
+    Name:${name.value}%0A
+    Mobile:${mobile.value}%0A
+    Address:${address.value}%0A
+    Location:${location.value}%0A
+    Items:${items}%0A
+    Total:₹${total}`;
 
-  orders.push(order);
-  localStorage.setItem("orders",JSON.stringify(orders));
-
-  // EMAIL REDIRECT
-  let body=`Order from ${order.name}%0A`+
-           `Mobile: ${order.mobile}%0A`+
-           `Address: ${order.address}%0A`+
-           `Location: ${order.location}%0A`+
-           `Items: ${order.items.map(i=>i.name).join(", ")}`;
-
-  window.location.href=
-  `mailto:yourmail@gmail.com?subject=New Order&body=${body}`;
-
-  cart=[];
-  localStorage.removeItem("cart");
-  updateCartCount();
-  goHome();
+    cart=[];
+    localStorage.removeItem("cart");
+    updateCartCount();
+    goHome();
 }
 
+/* ---------- BACK HOME ---------- */
 function goHome(){
-  home.classList.remove("hidden");
-  cartPage.classList.add("hidden");
-  adminPage.classList.add("hidden");
+    home.classList.remove("hidden");
+    cartPage.classList.add("hidden");
 }
-
 </script>
 
 </body>
