@@ -2,70 +2,144 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SH FABRIC FASHIONS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SH Fabric Fashions</title>
+
 <style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f4f4f4;
+/* ================= GLOBAL ================= */
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f4f4f4;
 }
-header {
-    background: black;
-    color: gold;
-    padding: 15px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
+button{cursor:pointer}
+h2{margin-bottom:10px}
+
+/* ================= HEADER ================= */
+header{
+    background:black;
+    color:gold;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
-.container {
-    padding: 20px;
+.logo{
+    font-size:24px;
+    font-weight:bold;
+    letter-spacing:1px;
 }
-.category {
-    margin-bottom: 40px;
+.cart-icon{
+    background:gold;
+    color:black;
+    padding:8px 14px;
+    border-radius:20px;
+    font-weight:bold;
 }
-.category h2 {
-    border-left: 6px solid gold;
-    padding-left: 10px;
-    color: #333;
+
+/* ================= SECTIONS ================= */
+.section{
+    padding:20px;
 }
-.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+.section h2{
+    border-left:6px solid gold;
+    padding-left:10px;
 }
-.card {
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    text-align: center;
+
+/* ================= HORIZONTAL SCROLL ================= */
+.products{
+    display:flex;
+    gap:15px;
+    overflow-x:auto;
+    padding-bottom:10px;
 }
-.card img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 10px;
+.products::-webkit-scrollbar{
+    height:6px;
 }
-.card button {
-    margin: 5px;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+.products::-webkit-scrollbar-thumb{
+    background:gold;
+    border-radius:10px;
 }
-.cart {
-    background: #333;
-    color: white;
+
+/* ================= PRODUCT CARD ================= */
+.card{
+    min-width:200px;
+    background:white;
+    padding:10px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    text-align:center;
 }
-.order {
-    background: gold;
-    font-weight: bold;
+.card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:8px;
 }
-footer {
-    background: black;
-    color: white;
-    text-align: center;
-    padding: 10px;
+.card h4{margin:8px 0}
+.card p{font-weight:bold}
+.card button{
+    width:90%;
+    padding:8px;
+    margin-top:6px;
+    border:none;
+    border-radius:5px;
+}
+.add{background:#333;color:white}
+.order{background:gold;font-weight:bold}
+
+/* ================= CART & CHECKOUT ================= */
+#cartPage{
+    display:none;
+}
+.cart-item{
+    background:white;
+    padding:10px;
+    margin-bottom:8px;
+    border-radius:6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.remove{
+    background:red;
+    color:white;
+    border:none;
+    padding:5px 8px;
+    border-radius:4px;
+}
+.total{
+    font-size:18px;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+/* ================= BUYER FORM ================= */
+form{
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    margin-top:15px;
+}
+input,textarea{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+}
+textarea{resize:none}
+
+/* ================= FOOTER ================= */
+footer{
+    background:black;
+    color:white;
+    text-align:center;
+    padding:10px;
+    margin-top:20px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:600px){
+    .card{min-width:160px}
 }
 </style>
 </head>
@@ -73,91 +147,175 @@ footer {
 <body>
 
 <header>
-    SH FABRIC FASHIONS
+    <div class="logo">SH Fabric Fashions</div>
+    <div class="cart-icon" onclick="openCart()">Cart 🛒 (<span id="cartCount">0</span>)</div>
 </header>
 
-<div class="container">
+<!-- ================= HOME PAGE ================= -->
+<div id="home">
 
 <!-- KIDS WEAR -->
-<div class="category">
+<div class="section">
 <h2>Kids Wear</h2>
 <div class="products">
-    <div class="card">
-        <img src="punjabi.png" alt="Kids Wear">
-        <p>Kids Dress</p>
-        <button class="cart">Add to Cart</button>
-        <button class="order" onclick="orderNow('Kids Dress')">Order</button>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Kids Party Dress</h4>
+<p>₹800</p>
+<button class="add" onclick="addToCart('Kids Party Dress',800)">Add to Cart</button>
+</div>
 </div>
 </div>
 
 <!-- SAREES -->
-<div class="category">
+<div class="section">
 <h2>Sarees</h2>
 <div class="products">
-    <div class="card">
-        <img src="punjabi.png" alt="Saree">
-        <p>Silk Saree</p>
-        <button class="cart">Add to Cart</button>
-        <button class="order" onclick="orderNow('Silk Saree')">Order</button>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Silk Saree</h4>
+<p>₹2500</p>
+<button class="add" onclick="addToCart('Silk Saree',2500)">Add to Cart</button>
+</div>
 </div>
 </div>
 
 <!-- CHUDIDHAR -->
-<div class="category">
+<div class="section">
 <h2>Chudidhar</h2>
 <div class="products">
-    <div class="card">
-        <img src="punjabi.png" alt="Chudidhar">
-        <p>Designer Chudidhar</p>
-        <button class="cart">Add to Cart</button>
-        <button class="order" onclick="orderNow('Designer Chudidhar')">Order</button>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Designer Chudidhar</h4>
+<p>₹1800</p>
+<button class="add" onclick="addToCart('Designer Chudidhar',1800)">Add to Cart</button>
+</div>
 </div>
 </div>
 
 <!-- PUNJABI -->
-<div class="category">
-<h2>Punjabi</h2>
+<div class="section">
+<h2>Punjabi Dresses</h2>
 <div class="products">
-    <div class="card">
-        <img src="punjabi.png" alt="Punjabi Dress">
-        <img src="punjabi.png" alt="Punjabi Dress">
-        <img src="punjabi.png" alt="Punjabi Dress">
-        <img src="punjabi.png" alt="Punjabi Dress">
-        <p>Punjabi Dress</p>
-        <button class="cart">Add to Cart</button>
-        <button class="order" onclick="orderNow('Punjabi Dress')">Order</button>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Punjabi Suit</h4>
+<p>₹2000</p>
+<button class="add" onclick="addToCart('Punjabi Suit',2000)">Add to Cart</button>
+</div>
 </div>
 </div>
 
 <!-- HALF SAREES -->
-<div class="category">
+<div class="section">
 <h2>Half Sarees</h2>
 <div class="products">
-    <div class="card">
-        <img src="punjabi.png" alt="Half Saree">
-        <p>Half Saree Set</p>
-        <button class="cart">Add to Cart</button>
-        <button class="order" onclick="orderNow('Half Saree Set')">Order</button>
-    </div>
+<div class="card">
+<img src="https://via.placeholder.com/300x400">
+<h4>Half Saree Set</h4>
+<p>₹2200</p>
+<button class="add" onclick="addToCart('Half Saree Set',2200)">Add to Cart</button>
+</div>
 </div>
 </div>
 
+</div>
+
+<!-- ================= CART / CHECKOUT PAGE ================= -->
+<div id="cartPage" class="section">
+<h2>Your Cart</h2>
+<div id="cartItems"></div>
+<div class="total">Total: ₹<span id="totalPrice">0</span></div>
+
+<form onsubmit="placeOrder(event)">
+<h3>Buyer Details</h3>
+<input type="text" id="name" placeholder="Buyer Name" required>
+<textarea id="address" placeholder="Full Address" required></textarea>
+<input type="text" id="location" placeholder="City / Location" required>
+<button class="order" type="submit">Place Order</button>
+</form>
+
+<br>
+<button class="add" onclick="goHome()">Back to Shop</button>
 </div>
 
 <footer>
-© 2026 SH FABRIC FASHIONS | All Rights Reserved
+© 2026 SH Fabric Fashions
 </footer>
 
 <script>
-function orderNow(product) {
-    let phone = "91XXXXXXXXXX"; // <-- Put your WhatsApp number
-    let message = `Hello, I want to order: ${product}`;
-    let url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* Update cart count */
+function updateCartCount(){
+    document.getElementById("cartCount").innerText = cart.length;
+}
+updateCartCount();
+
+/* Add item */
+function addToCart(name,price){
+    cart.push({name,price});
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCartCount();
+    alert(name+" added to cart");
+}
+
+/* Open cart */
+function openCart(){
+    document.getElementById("home").style.display="none";
+    document.getElementById("cartPage").style.display="block";
+    loadCart();
+}
+
+/* Load cart items */
+function loadCart(){
+    let div=document.getElementById("cartItems");
+    let total=0;
+    div.innerHTML="";
+    cart.forEach((item,index)=>{
+        total+=item.price;
+        div.innerHTML+=`
+        <div class="cart-item">
+            <span>${item.name} - ₹${item.price}</span>
+            <button class="remove" onclick="removeItem(${index})">Remove</button>
+        </div>`;
+    });
+    document.getElementById("totalPrice").innerText=total;
+}
+
+/* Remove item */
+function removeItem(index){
+    cart.splice(index,1);
+    localStorage.setItem("cart",JSON.stringify(cart));
+    updateCartCount();
+    loadCart();
+}
+
+/* Place order */
+function placeOrder(e){
+    e.preventDefault();
+    let name=document.getElementById("name").value;
+    let address=document.getElementById("address").value;
+    let location=document.getElementById("location").value;
+
+    alert(
+        "Order Placed Successfully!\n\n"+
+        "Name: "+name+
+        "\nAddress: "+address+
+        "\nLocation: "+location+
+        "\nItems: "+cart.length
+    );
+
+    cart=[];
+    localStorage.removeItem("cart");
+    updateCartCount();
+    goHome();
+}
+
+/* Back to home */
+function goHome(){
+    document.getElementById("cartPage").style.display="none";
+    document.getElementById("home").style.display="block";
 }
 </script>
 
